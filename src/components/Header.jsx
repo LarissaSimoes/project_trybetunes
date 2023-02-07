@@ -30,7 +30,7 @@ class Header extends React.Component {
           Favoritas
         </Link>
         <Link to="/profile" data-testid="link-to-profile">
-          Favoritas
+          Perfil
         </Link>
         Header
         { isLoading ? (<Loading />) : null }
