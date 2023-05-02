@@ -20,6 +20,8 @@ class MusicCard extends Component {
     const isMusicFavorite = favoriteSongs.find((song) => song.trackId === music.trackId);
     if (isMusicFavorite) {
       this.setState({ checked: true });
+    } else {
+      this.setState({ checked: false });
     }
     this.setState({ isLoading: false });
   }
@@ -31,11 +33,9 @@ class MusicCard extends Component {
     this.setState({ isLoading: true });
 
     if (checked) {
-      // Remove a música da lista de favoritos
       await removeSong(music);
       this.setState({ checked: false });
     } else {
-      // Adiciona a música à lista de favoritos
       await addSong(music);
       this.setState({ checked: true });
     }
