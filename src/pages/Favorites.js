@@ -22,7 +22,10 @@ class Favorites extends React.Component {
   handleRemoveSong = async (song) => {
     this.setState({ isLoading: true });
     await removeSong(song);
-    await this.getFavorites();
+    this.setState((prevState) => ({
+      favoriteSongs: prevState.favoriteSongs.filter((s) => s.trackId !== song.trackId),
+      isLoading: false,
+    }));
   };
 
   render() {

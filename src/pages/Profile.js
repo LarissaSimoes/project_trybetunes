@@ -7,7 +7,7 @@ import Loading from '../components/Loading';
 class Profile extends React.Component {
   state = {
     user: {},
-    isLoading: true,
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -15,6 +15,7 @@ class Profile extends React.Component {
   }
 
   setUser = async () => {
+    this.setState({ isLoading: true });
     const user = await getUser();
     this.setState({ user, isLoading: false });
     console.log(user);
@@ -24,21 +25,30 @@ class Profile extends React.Component {
     const { user, isLoading } = this.state;
     return (
       <div data-testid="page-profile">
-        { isLoading && <Loading /> }
         <Header />
-        <h2>{user.name}</h2>
-        <p>
-          Email:
-          {' '}
-          {user.email}
-        </p>
-        <p>
-          Descrição:
-          {' '}
-          {user.description}
-        </p>
-        <img src={ user.image } alt="Imagem do perfil" data-testid="profile-image" />
         <Link to="/profile/edit">Editar perfil</Link>
+        { isLoading ? <Loading />
+          : (
+            <section>
+              <h2>{user.name}</h2>
+              <p>
+                Email:
+                {' '}
+                {user.email}
+              </p>
+              <p>
+                Descrição:
+                {' '}
+                {user.description}
+              </p>
+              <img
+                src={ user.image }
+                alt="Imagem do perfil"
+                data-testid="profile-image"
+              />
+
+            </section>
+          )}
 
       </div>
     );
