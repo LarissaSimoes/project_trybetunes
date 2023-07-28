@@ -5,18 +5,15 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 
 class ProfileEdit extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      email: '',
-      description: '',
-      image: '',
-      isLoading: true,
-      isSaving: false,
-      isValid: false,
-    };
-  }
+  state = {
+    name: '',
+    email: '',
+    description: '',
+    image: '',
+    isLoading: true,
+
+    isValid: false,
+  };
 
   async componentDidMount() {
     try {
@@ -39,10 +36,10 @@ class ProfileEdit extends Component {
   };
 
   validateForm = () => {
-    const { name, email, description } = this.state;
+    const { name, email, description, image } = this.state;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValid = name !== ''
-    && email !== '' && description !== '' && emailRegex.test(email);
+    && email !== '' && image && description !== '' && emailRegex.test(email);
     this.setState({ isValid });
   };
 
@@ -56,7 +53,7 @@ class ProfileEdit extends Component {
       image,
     };
     try {
-      this.setState({ isSaving: true });
+      // this.setState({ isSaving: true });
       await updateUser(userInfo);
       const { history } = this.props;
       history.push('/profile');
@@ -66,7 +63,7 @@ class ProfileEdit extends Component {
   };
 
   render() {
-    const { name, email, description, image, isLoading, isSaving, isValid } = this.state;
+    const { name, email, description, image, isLoading, isValid } = this.state;
 
     return (
       <div data-testid="page-profile-edit">
@@ -121,10 +118,11 @@ class ProfileEdit extends Component {
               </label>
               <button
                 type="submit"
-                disabled={ !isValid || isSaving }
+                disabled={ !isValid }
                 data-testid="edit-button-save"
               >
-                {isSaving ? 'Salvando...' : 'Salvar'}
+                {/* {isSaving ? 'Salvando...' : 'Salvar'} */}
+                Editar perfil
               </button>
             </form>
           )}

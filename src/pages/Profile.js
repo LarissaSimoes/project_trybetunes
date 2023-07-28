@@ -1,24 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import Header from '../components/Header';
 import { getUser } from '../services/userAPI';
 import Loading from '../components/Loading';
+import Header from '../components/Header';
 
 class Profile extends React.Component {
   state = {
     user: {},
-    isLoading: false,
+    isLoading: true,
   };
 
   componentDidMount() {
-    this.setUser();
+    getUser().then((user) => this.setUser(user));
   }
 
-  setUser = async () => {
-    this.setState({ isLoading: true });
-    const user = await getUser();
+  setUser = (user) => {
+    // this.setState({ isLoading: true });
+    // const user = await getUser();
     this.setState({ user, isLoading: false });
-    console.log(user);
+    // console.log(user);
   };
 
   render() {
@@ -26,28 +26,29 @@ class Profile extends React.Component {
     return (
       <div data-testid="page-profile">
         <Header />
-        <Link to="/profile/edit">Editar perfil</Link>
+
         { isLoading ? <Loading />
           : (
-            <section>
-              <h2>{user.name}</h2>
-              <p>
-                Email:
-                {' '}
-                {user.email}
-              </p>
-              <p>
-                Descrição:
-                {' '}
-                {user.description}
-              </p>
-              <img
-                src={ user.image }
-                alt="Imagem do perfil"
-                data-testid="profile-image"
-              />
+            <div>
+              <section>
+                <h2>{user.name}</h2>
+                <p>
+                  {user.email}
+                </p>
+                <p>
+                  {user.description}
+                </p>
+                <img
+                  src={ user.image }
+                  alt="Imagem do perfil"
+                  data-testid="profile-image"
+                />
 
-            </section>
+              </section>
+              <div>
+                <button><Link to="/profile/edit">Editar perfil</Link></button>
+              </div>
+            </div>
           )}
 
       </div>
